@@ -1,0 +1,33 @@
+author: ByCubed7
+description: A toggle flight plugin by ByCubed7.
+
+version: 1.3.4-SNAPSHOT
+api-version: 1.18
+
+website: ByCubed7.github.io/commissions/plugins
+
+# Impo
+main: io.github.bycubed7.cliffflight.CliffFlight
+name: CliffFlight
+prefix: CliffFlight
+
+load: POSTWORLD
+
+depend: [CoreCubes]
+
+commands:
+  flyzone:
+    description: Add and remove fly regions.
+    permission: cliffflight.flyzone
+    usage: /flyregion [add|remove]
+    
+permissions:
+  cliffflight.flyzone:
+    description: Allows the flyzone command
+    default: op
+    
+  cliffflight.*:
+    description: Wildcard permission
+    default: op
+    children:
+      cliffflight.flyzone: true

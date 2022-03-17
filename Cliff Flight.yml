@@ -1,0 +1,16 @@
+
+# - - / General \ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+# The required amount of air blocks for the player to be able to fly
+# (Int) Default: 10  3  
+height:
+  withoutElytra: 10
+  withElytra: 3
+  
+# The speed the player will go when in flight
+# (Float) Default: 0.1  0.3
+speed:
+  withoutElytra: 0.1
+  withElytra: 0.3
+ 
