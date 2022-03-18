@@ -20,10 +20,18 @@ commands:
     description: Add and remove fly regions.
     permission: cliffflight.flyzone
     usage: /flyregion [add|remove]
+  speed:
+    description: Set your flight speed in Creative or Specator.
+    permission: cliffflight.speed
+    usage: /speed [float]
     
 permissions:
   cliffflight.flyzone:
     description: Allows the flyzone command
+    default: op
+    
+  cliffflight.speed:
+    description: Allows the speed command
     default: op
     
   cliffflight.*:
@@ -31,3 +39,4 @@ permissions:
     default: op
     children:
       cliffflight.flyzone: true
+      cliffflight.speed: true

@@ -1,5 +1,6 @@
 package io.github.bycubed7.cliffflight;
 
+import io.github.bycubed7.cliffflight.commands.CommandFlightSpeed;
 import io.github.bycubed7.cliffflight.commands.CommandFlyZone;
 import io.github.bycubed7.cliffflight.managers.FlightManager;
 import io.github.bycubed7.cliffflight.managers.ZoneManager;
@@ -22,6 +23,7 @@ public class CliffFlight extends CubePlugin {
 	@Override
 	protected void onCommands() {
 		new CommandFlyZone(this);
+		new CommandFlightSpeed(this);
 	}
 
 	@Override

@@ -41,14 +41,17 @@ public class FlightManager implements Listener {
 		
 		// Disallow flight from ground, whether their in a zone or not
 		if (player.getGameMode().equals(GameMode.SURVIVAL))
+		{
 			if (!player.isFlying())
 				player.setAllowFlight(false);
+		}
+		else return;
 		
 		// If not in a zone ignore
 		if (!ZoneManager.isPlayerInZone(player)) return;
 		
 		// If not falling ignore
-		if (player.getVelocity().getY() > 0) return; 
+		if (player.getVelocity().getY() > -0.01f) return; 
 		
 		// Is the player wearing an elytra
 		boolean hasElytra = false;
@@ -61,13 +64,14 @@ public class FlightManager implements Listener {
 		// Get the player height
 		Location location = player.getLocation();
 		while (location.getBlock().getType() == Material.AIR)
-			location.add(0, -2, 0);
+			location.add(0, -0.5, 0);
 		int currentHeight = player.getLocation().getBlockY() - location.getBlockY();
 		
 		// Does the player have enough height?
 		if (currentHeight < targetHeight) return;
 		
 		player.setAllowFlight(true);
+		player.setFlying(true);
 		player.setFlySpeed(hasElytra ? flySpeedWE : flySpeed);
 	}
 	
