@@ -64,6 +64,7 @@ public class Zone {
 		if (maxPosition.y < point.getY()) return false;
 		if (maxPosition.z < point.getZ()) return false;
 		if (!point.getWorld().getName().equals(worldName)) return false;
+		
 		return true;
 	}
 }

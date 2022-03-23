@@ -2,6 +2,7 @@ package io.github.bycubed7.cliffflight;
 
 import io.github.bycubed7.cliffflight.commands.CommandFlightSpeed;
 import io.github.bycubed7.cliffflight.commands.CommandFlyZone;
+import io.github.bycubed7.cliffflight.managers.ElytraManager;
 import io.github.bycubed7.cliffflight.managers.FlightManager;
 import io.github.bycubed7.cliffflight.managers.ZoneManager;
 import io.github.bycubed7.corecubes.CubePlugin;
@@ -36,6 +37,7 @@ public class CliffFlight extends CubePlugin {
 	protected void onManagers() {
 		new FlightManager(this);
 		new ZoneManager(this);
+		new ElytraManager(this);
 	}
 
 	@Override

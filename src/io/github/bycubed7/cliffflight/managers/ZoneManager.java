@@ -18,18 +18,18 @@ import io.github.bycubed7.corecubes.CubePlugin;
 import io.github.bycubed7.corecubes.unit.Vector3Int;
 
 public class ZoneManager implements Listener, Runnable {
-	static CubePlugin plugin;
+	private static CubePlugin plugin;
 	
-	public static ArrayList<Zone> zones;
-	public static ArrayList<Player> playersInZone;
-	public static HashSet<Player> playersToCheck;
+	private static ArrayList<Zone> zones;
+	private static HashSet<Player> playersInZone;
+	private static HashSet<Player> playersToCheck;
 	
 	public ZoneManager(CubePlugin _plugin) {
 		plugin = _plugin;
 		plugin.getServer().getScheduler().runTaskTimer(plugin, this, 0, 200);
 
 		zones = new ArrayList<Zone>(); // TODO: Load from file
-		playersInZone = new ArrayList<Player>();
+		playersInZone = new HashSet<Player>();
 		playersToCheck = new HashSet<Player>();
 		
 		loadFromConfig();

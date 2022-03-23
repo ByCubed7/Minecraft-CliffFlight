@@ -3,7 +3,7 @@
 
   <groupId>io.github.bycubed7</groupId>
   <artifactId>cliffflight</artifactId>
-  <version>1.3.4-SNAPSHOT</version>
+  <version>1.3.5-SNAPSHOT</version>
 
   <name>CliffFlight</name>
   <description>Jump off a cliff to gain creative flight! By ByCubed7</description>

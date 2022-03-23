@@ -12,14 +12,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import io.github.bycubed7.corecubes.CubePlugin;
 import io.github.bycubed7.corecubes.managers.ConfigManager;
-import io.github.bycubed7.corecubes.managers.Tell;
 
 public class FlightManager implements Listener {
 
-	int blockCount = 0;
-	int blockCountWE = 0;
-	float flySpeed = 0.2f;
-	float flySpeedWE = 0.4f;
+	private static int blockCount = 0;
+	private static int blockCountWE = 0;
 	
 	public FlightManager(CubePlugin plugin) {
 		Bukkit.getServer().getPluginManager().registerEvents((Listener) this, plugin);
@@ -27,8 +24,6 @@ public class FlightManager implements Listener {
 		ConfigManager config = new ConfigManager(plugin, "Cliff Flight.yml");
 		blockCount = config.getInt("height.withoutElytra");
 		blockCountWE = config.getInt("height.withElytra");
-		flySpeed = config.getFloat("speed.withoutElytra");
-		flySpeedWE = config.getFloat("speed.withElytra");
 	}
 	
 	
@@ -72,7 +67,7 @@ public class FlightManager implements Listener {
 		
 		player.setAllowFlight(true);
 		player.setFlying(true);
-		player.setFlySpeed(hasElytra ? flySpeedWE : flySpeed);
+		//player.setFlySpeed(hasElytra ? flySpeedWE : flySpeed);
 	}
 	
 	@EventHandler
