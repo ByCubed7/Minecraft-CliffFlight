@@ -3,7 +3,12 @@ package io.github.bycubed7.cliffflight.commands;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,13 +18,26 @@ import io.github.bycubed7.cliffflight.managers.ZoneManager;
 import io.github.bycubed7.cliffflight.units.Zone;
 import io.github.bycubed7.corecubes.commands.Action;
 import io.github.bycubed7.corecubes.commands.ActionFailed;
+import io.github.bycubed7.corecubes.commands.Arg;
 import io.github.bycubed7.corecubes.managers.Tell;
+import io.github.bycubed7.corecubes.unit.CoString;
+import io.github.bycubed7.corecubes.unit.Node;
 import io.github.bycubed7.corecubes.unit.Vector3Int;
 
 public class CommandFlyZone extends Action {
 
 	public CommandFlyZone(JavaPlugin _plugin) {
 		super("FlyZone", _plugin);
+
+		// startPosition endPosition world
+		//Arg use1Start = Arg.<Vector3Int>Create("startPosition", new Vector3Int());
+		//Arg use1End   = Arg.<Vector3Int>Create("endPosition", new Vector3Int());
+		//Arg use1World = Arg.<CoString>Create("world", new CoString("world"));
+
+		//Node<Arg<?>> use1StartNode = arguments.add(use1Start);
+		//Node<Arg<?>> use1EndNode   = arguments.join(use1StartNode, use1End);
+		//Node<Arg<?>> use1WorldNode = 
+		//arguments.join(use1EndNode, use1World);
 	}
 
 	@Override
@@ -41,11 +59,19 @@ public class CommandFlyZone extends Action {
 	        catch (NumberFormatException ex) {
 	        	return ActionFailed.USAGE;
 	        }
+
+			if (args.length == 8)
+				if (Bukkit.getWorld(args[7]) == null) {
+					Tell.player(player, "Can't find world " + args[7] + "!");
+					Tell.player(player, "Found world list contains: " + ChatColor.LIGHT_PURPLE + String.join(", ",  
+						Bukkit.getWorlds()
+						.stream().map(World::getName)
+	                       .collect(Collectors.joining(", "))
+					));
+					return ActionFailed.OTHER;
+				}
 	        
-	        // Check the world name exists
-	        //String worldName = player.getWorld().getName();
-			//if (args.length == 7)
-			//	worldName = args[6];
+	      
 		}
 		else if (args[0].equals("remove")) {
 	        // Check if a region exists here
@@ -76,11 +102,11 @@ public class CommandFlyZone extends Action {
 	            Integer.parseInt(args[6])
 	        );
 	        
-	        String worldName = player.getWorld().getName();
+	        UUID worldId = player.getWorld().getUID();
 			if (args.length == 8)
-				worldName = args[7];
+				worldId = Bukkit.getWorld(args[7]).getUID();
 
-			ZoneManager.addZone(new Zone(pos1, pos2, worldName));
+			ZoneManager.addZone(new Zone(pos1, pos2, worldId));
 			
 			Tell.player(player, "Added a zone!");
 			return true;

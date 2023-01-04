@@ -2,6 +2,7 @@ package io.github.bycubed7.cliffflight;
 
 import io.github.bycubed7.cliffflight.commands.CommandFlightSpeed;
 import io.github.bycubed7.cliffflight.commands.CommandFlyZone;
+import io.github.bycubed7.cliffflight.commands.CommandLoad;
 import io.github.bycubed7.cliffflight.managers.ElytraManager;
 import io.github.bycubed7.cliffflight.managers.FlightManager;
 import io.github.bycubed7.cliffflight.managers.ZoneManager;
@@ -9,6 +10,10 @@ import io.github.bycubed7.corecubes.CubePlugin;
 
 public class CliffFlight extends CubePlugin {
 
+	public FlightManager flightManager;
+	public ZoneManager zoneManager;
+	public ElytraManager elytraManager;
+	
 	@Override
 	protected void onBoot() {
 		banner.add("  _____   _   _    __    __     ______   _   _           _       _");
@@ -25,19 +30,14 @@ public class CliffFlight extends CubePlugin {
 	protected void onCommands() {
 		new CommandFlyZone(this);
 		new CommandFlightSpeed(this);
-	}
-
-	@Override
-	protected void onListeners() {
-		// TODO Auto-generated method stub
-		
+		new CommandLoad(this);
 	}
 
 	@Override
 	protected void onManagers() {
-		new FlightManager(this);
-		new ZoneManager(this);
-		new ElytraManager(this);
+		flightManager = new FlightManager(this);
+		zoneManager = new ZoneManager(this);
+		elytraManager = new ElytraManager(this);
 	}
 
 	@Override
@@ -45,5 +45,5 @@ public class CliffFlight extends CubePlugin {
 
 	@Override
 	protected void onStart() {}
-
+	
 }

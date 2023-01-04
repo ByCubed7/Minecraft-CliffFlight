@@ -2,24 +2,30 @@ package io.github.bycubed7.cliffflight.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import io.github.bycubed7.cliffflight.managers.ZoneManager;
-import io.github.bycubed7.cliffflight.units.Zone;
 import io.github.bycubed7.corecubes.commands.Action;
 import io.github.bycubed7.corecubes.commands.ActionFailed;
+import io.github.bycubed7.corecubes.commands.Arg;
+import io.github.bycubed7.corecubes.commands.ArgBuilder;
 import io.github.bycubed7.corecubes.managers.Tell;
-import io.github.bycubed7.corecubes.unit.Vector3Int;
 
 public class CommandFlightSpeed extends Action {
 
 	public CommandFlightSpeed(JavaPlugin _plugin) {
 		super("Speed", _plugin);
+		
+		arguments.add( ArgBuilder.create()
+			.build()
+		);
+		
+		arguments.add( ArgBuilder.create()
+			.add(Arg.create("speed", "0.3"))
+			.build()
+		);
 	}
 
 	@Override

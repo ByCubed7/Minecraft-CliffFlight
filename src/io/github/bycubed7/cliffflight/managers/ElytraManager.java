@@ -15,11 +15,12 @@ public class ElytraManager implements Runnable {
 	
 	public static HashSet<Player> playersWithElytra;
 	
-	private static float flySpeed = 0.2f;
-	private static float flySpeedWE = 0.4f;
+	public static float flySpeed = 0.2f;
+	public static float flySpeedWE = 0.4f;
 	
-	public ElytraManager(CubePlugin plugin) {
-		plugin.getServer().getScheduler().runTaskTimer(plugin, this, 0, 200);
+	public ElytraManager(CubePlugin _plugin) {
+		plugin = _plugin;
+		plugin.getServer().getScheduler().runTaskTimer(plugin, this, 0, 40);
 		
 		ConfigManager config = new ConfigManager(plugin, "Cliff Flight.yml");
 		flySpeed = config.getFloat("speed.withoutElytra");
@@ -28,36 +29,36 @@ public class ElytraManager implements Runnable {
 		playersWithElytra = new HashSet<Player>();
 	}
 	
-	public static void updateTick(Player player) {
-		
-		if (isPlayerWearingElytra(player)) {
-			if (playersWithElytra.add(player))
-				onUpdate(player, true);			
-		}
-		else 
-			if (playersWithElytra.remove(player)) 
-				onUpdate(player, false);
-	}
-	
 	private static boolean isPlayerWearingElytra(Player player) {
 		if (player.getInventory().getChestplate() == null) return false;
 		if (player.getInventory().getChestplate().getType() != Material.ELYTRA) return false;
 		
 		return true;
 	}
-
-	@Override
-	public void run() {
-	    for(Player player : Bukkit.getOnlinePlayers())
-			updateTick(player);
-	}
 	
-	public static void onUpdate(Player player, boolean has) {
-		if (player.getGameMode().equals(GameMode.SURVIVAL))
-			player.setFlySpeed(has ? flySpeedWE : flySpeed);
+	public static void updateTick(Player player) {
+		if (!player.getGameMode().equals(GameMode.SURVIVAL)) return;
+
+		if (isPlayerWearingElytra(player)) {
+			playersWithElytra.add(player);
+			player.setFlySpeed(flySpeedWE);
+		}
+		else {
+			playersWithElytra.remove(player); 
+			player.setFlySpeed(flySpeed);
+		}
 	}
 	
 	public static boolean isWearingElyta(Player player) {
 		return playersWithElytra.contains(player);
+	}
+	
+
+	@Override
+	public void run() {
+	    for(Player player : Bukkit.getOnlinePlayers()) {
+			updateTick(player);
+			//Tell.player(player, ChatColor.GOLD + "ElytraManager: Updating to " + player.getFlySpeed());
+	    }
 	}
 }

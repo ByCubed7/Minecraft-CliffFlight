@@ -4,18 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import io.github.bycubed7.cliffflight.units.Zone;
 import io.github.bycubed7.corecubes.CubePlugin;
-import io.github.bycubed7.corecubes.unit.Vector3Int;
 
 public class ZoneManager implements Listener, Runnable {
 	private static CubePlugin plugin;
@@ -26,13 +27,20 @@ public class ZoneManager implements Listener, Runnable {
 	
 	public ZoneManager(CubePlugin _plugin) {
 		plugin = _plugin;
-		plugin.getServer().getScheduler().runTaskTimer(plugin, this, 0, 200);
+		plugin.getServer().getScheduler().runTaskTimer(plugin, this, 0, 20);
 
 		zones = new ArrayList<Zone>(); // TODO: Load from file
 		playersInZone = new HashSet<Player>();
 		playersToCheck = new HashSet<Player>();
 		
 		loadFromConfig();
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void OnPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		ZoneManager.checkPlayer(player);
+		checkPlayer(player);
 	}
 	
 	private static void loadFromConfig() {
@@ -84,14 +92,6 @@ public class ZoneManager implements Listener, Runnable {
 		else 
 			playersInZone.remove(player);
 	}
-
-	@Override
-	public void run() {
-	    Iterator<Player> playerIterator = playersToCheck.iterator();
-	    while(playerIterator.hasNext())
-			updateTick(playerIterator.next());
-	    playersToCheck.clear();
-	}
 	
 	public static boolean isPlayerInZone(Player player) {
 		return playersInZone.contains(player);
@@ -99,6 +99,18 @@ public class ZoneManager implements Listener, Runnable {
 	
 	public static void checkPlayer(Player player) {
 		playersToCheck.add(player);
+	}
+
+	
+	@Override
+	public void run() {
+	    for(Player player : playersToCheck) {
+			updateTick(player);
+			//if (playersInZone.contains(player)) Tell.player(player, ChatColor.YELLOW + "ZoneManager: Updating");
+			//else Tell.player(player, ChatColor.RED + "ZoneManager: Updating");
+				
+	    }
+	    playersToCheck.clear();
 	}
 }
 	
